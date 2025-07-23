@@ -1,0 +1,10 @@
+services:
+  backend:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_MAIL_PASSWORD=${MAILTRAP_API_KEY}
+      - MAILTRAP_TO_EMAIL=${MAILTRAP_TO_EMAIL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
