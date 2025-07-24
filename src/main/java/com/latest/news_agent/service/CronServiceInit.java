@@ -1,6 +1,9 @@
 package com.latest.news_agent.service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 import com.latest.news_agent.Util;
 
+import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
-
 
 @Component
 public class CronServiceInit {
@@ -25,7 +28,8 @@ public class CronServiceInit {
     private final ExternalService externalService;
     private final ExecutorService executorService;
 
-    public CronServiceInit(ExternalService externalService, EmailService emailService, ExecutorService executorService) {
+    public CronServiceInit(ExternalService externalService, EmailService emailService,
+            ExecutorService executorService) {
         this.externalService = externalService;
         this.emailService = emailService;
         this.executorService = executorService;
@@ -34,10 +38,18 @@ public class CronServiceInit {
     @Scheduled(cron = "0 30 7 ? * MON-FRI", zone = "America/New_York")
     public void startCronService() {
         log.info("cron service triggered...");
-        externalService.generateQueryForLatestWorldNews(openAiKey)
-            .map(Util::mapResponse)
-            .doOnNext(f -> emailService.sendSimpleEmail(f))
-            .subscribeOn(Schedulers.fromExecutor(executorService))
-            .subscribe();
+        var subjects = List.of("Politics", "Technology", "Health");
+        Flux.fromIterable(subjects)
+                .flatMap(subject -> externalService.generateQueryForLatestWorldNews(openAiKey, subject)
+                        .map(response -> Map.entry(subject, Util.mapResponse(response)))
+                        .subscribeOn(Schedulers.fromExecutor(executorService)))
+                .collectList()
+                .map(entries -> entries.stream()
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey,
+                                entry -> List.of(entry.getValue())
+                        )))
+                .doOnNext(f -> emailService.sendFormattedEmail(f))
+                .subscribe();
     }
 }

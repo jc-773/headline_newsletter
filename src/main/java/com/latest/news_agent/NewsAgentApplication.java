@@ -18,5 +18,4 @@ public class NewsAgentApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NewsAgentApplication.class, args);
 	}
-
 }
