@@ -44,7 +44,7 @@ jobs:
       - name: Build and tag Docker image
         run: |
             IMAGE_URI=${{ secrets.ECR_REGISTRY }}/personal/newsalert:latest
-            docker build -t $IMAGE_URI ./headline_newsletter
+            docker build -t $IMAGE_URI ./headline_newsletter/news_agent
             echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
       - name: Push image to ECR
