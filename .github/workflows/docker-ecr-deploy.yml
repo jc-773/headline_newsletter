@@ -20,7 +20,7 @@ jobs:
             path: headline_newsletter
       
       - run: ls -R
-      
+
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
@@ -29,10 +29,12 @@ jobs:
 
       - name: Run Unit Tests
         run: |
+         cd headline_newsletter
           ./mvnw test
 
       - name: Build maven project
         run: |
+         cd headline_newsletter
           ./mvnw clean package -DskipTests
 
       - name: Configure AWS Credentials
