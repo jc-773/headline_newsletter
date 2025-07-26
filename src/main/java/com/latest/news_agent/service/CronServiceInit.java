@@ -28,14 +28,13 @@ public class CronServiceInit {
     private final ExternalService externalService;
     private final ExecutorService executorService;
 
-    public CronServiceInit(ExternalService externalService, EmailService emailService,
-            ExecutorService executorService) {
+    public CronServiceInit(ExternalService externalService, EmailService emailService, ExecutorService executorService) {
         this.externalService = externalService;
         this.emailService = emailService;
         this.executorService = executorService;
     }
 
-    @Scheduled(cron = "0 30 7 ? * MON-FRI", zone = "America/New_York")
+    //@Scheduled(cron = "0 30 7 ? * MON-FRI", zone = "America/New_York") <- AWS lambda doesn't use @Scheduled
     public void startCronService() {
         log.info("cron service triggered...");
         var subjects = List.of("Politics", "Technology", "Health");
@@ -50,6 +49,6 @@ public class CronServiceInit {
                                 entry -> List.of(entry.getValue())
                         )))
                 .doOnNext(f -> emailService.sendFormattedEmail(f))
-                .subscribe();
+                .block();
     }
 }
