@@ -16,7 +16,11 @@ jobs:
     steps:
       - name: Checkout repo (this one)
         uses: actions/checkout@v3
-
+        with:
+            path: headline_newsletter
+      
+      - run: ls -R
+      
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
