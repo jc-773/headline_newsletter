@@ -22,8 +22,8 @@ public class CronServiceInit {
 
     private static final Logger log = LoggerFactory.getLogger(CronServiceInit.class);
 
-    @Value("${openai.api.key:}")
-    private String openAiKey;
+//     @Value("${openai.api.key:}")
+//     private String openAiKey;
 
     private final EmailService emailService;
     private final ExternalService externalService;
@@ -41,7 +41,7 @@ public class CronServiceInit {
         log.info("cron service triggered...");
         var subjects = List.of("Politics", "Technology", "Health");
         Flux.fromIterable(subjects)
-                .flatMap(subject -> externalService.generateQueryForLatestWorldNews(openAiKey, subject)
+                .flatMap(subject -> externalService.generateQueryForLatestWorldNews(System.getenv("OPENAI_API_KEY"), subject)
                         .map(response -> Map.entry(subject, Util.mapResponse(response)))
                         .subscribeOn(Schedulers.fromExecutor(executorService)))
                 .collectList()

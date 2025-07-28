@@ -38,7 +38,7 @@ public class NewsAgentApplication {
 	public void dumpEnv() {
 		System.out.println("=== ENV DUMP ===");
 		System.getenv().forEach((k, v) -> {
-			if (k.toLowerCase().contains("mail")) {
+			if (k.toLowerCase().contains("mail") || k.toLowerCase().contains("openai")) {
 				System.out.println(k + " = " + v);
 			}
 		});
