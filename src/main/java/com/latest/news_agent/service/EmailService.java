@@ -19,12 +19,8 @@ import jakarta.mail.internet.MimeMessage;
 public class EmailService {
     private static Logger log = LoggerFactory.getLogger(EmailService.class);
 
-    @Value("${mailtrap.to.email}")
-    private String toEmail;
-
     private final JavaMailSender mailSender;
 
-    @Autowired
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
@@ -32,7 +28,7 @@ public class EmailService {
     public void sendSimpleEmail(String queryResponse) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("hello@demomailtrap.co");
-        message.setTo(toEmail);
+        message.setTo(System.getenv(""));
         message.setSubject("Daily world news agent 📰");
         message.setText(queryResponse);
         mailSender.send(message);
@@ -69,7 +65,7 @@ public class EmailService {
                     """);
 
             helper.setText(htmlBuilder.toString(), true); // true = HTML
-            helper.setTo(toEmail);
+            helper.setTo(System.getenv("MAILTRAP_TO_EMAIL"));
             helper.setSubject("Daily world news agent 📰");
             helper.setFrom("hello@demomailtrap.co");
 
