@@ -36,7 +36,7 @@ public class CronServiceInit {
         this.executorService = executorService;
     }
 
-    //@Scheduled(cron = "0 30 7 ? * MON-FRI", zone = "America/New_York") <- AWS lambda doesn't use @Scheduled
+    //@Scheduled(cron = "00 01 10 ? * MON-FRI", zone = "America/New_York")// <- AWS lambda doesn't use @Scheduled
     public void startCronService() {
         log.info("cron service triggered...");
         var subjects = List.of("Politics", "Technology", "Health");
