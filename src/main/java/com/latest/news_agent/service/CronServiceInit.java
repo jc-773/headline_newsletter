@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.latest.news_agent.Util;
@@ -21,9 +19,6 @@ import reactor.core.scheduler.Schedulers;
 public class CronServiceInit {
 
     private static final Logger log = LoggerFactory.getLogger(CronServiceInit.class);
-
-//     @Value("${openai.api.key:}")
-//     private String openAiKey;
 
     private final EmailService emailService;
     private final ExternalService externalService;
