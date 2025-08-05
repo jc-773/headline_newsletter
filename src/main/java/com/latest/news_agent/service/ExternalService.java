@@ -48,8 +48,12 @@ public class ExternalService {
         List<Map<String, String>> messages = new ArrayList<>();
         String prompt = determineSubjectForPromptGeneration(subject);
         log.info("prompt generated: {}, \nfor the following subject: {}", prompt, subject);
-        messages.add(Map.of("role", QUERY, "content", prompt));
+        // System message: sets the assistant behavior
+        messages.add(Map.of("role", "system", "content", QUERY));
 
+        // User message: the actual task/request
+        messages.add(Map.of("role", "user", "content", prompt));
+        
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", "gpt-3.5-turbo");
         requestBody.put("messages", messages);
