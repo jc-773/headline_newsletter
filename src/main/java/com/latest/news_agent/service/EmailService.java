@@ -25,7 +25,7 @@ public class EmailService {
 
     public void sendSimpleEmail(String queryResponse) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("hello@demomailtrap.co");
+        message.setFrom("hello@jonathanclark-personal.com");
         message.setTo(System.getenv(""));
         message.setSubject("Daily world news agent 📰");
         message.setText(queryResponse);
@@ -106,7 +106,7 @@ public class EmailService {
             helper.setText(htmlBuilder.toString(), true);
             helper.setTo(System.getenv("MAILTRAP_TO_EMAIL"));
             helper.setSubject("Daily world news agent 📰");
-            helper.setFrom("hello@demomailtrap.co");
+            helper.setFrom("hello@jonathanclark-personal.com");
 
             mailSender.send(mimeMessage);
             log.info("Email with the following content was sent: {}", mimeMessage);
