@@ -53,7 +53,7 @@ public class ExternalService {
 
         // User message: the actual task/request
         messages.add(Map.of("role", "user", "content", prompt));
-        
+
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", "gpt-3.5-turbo");
         requestBody.put("messages", messages);
